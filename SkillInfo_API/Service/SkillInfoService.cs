@@ -15,38 +15,36 @@ namespace SkillInfo_API.Service
 
         public async Task<bool> AddSkillAsync(List<SkillModel> skillModels)
         {
-            //try
-            //{
+            try
+            {
                 var models = new List<Skill>();
-                var result = false;
+            // var result = false;
 
-                foreach (var model in skillModels)
+            foreach (var model in skillModels)
+            {
+                var entity = new Skill();
+
                 {
-                    var entity = new Skill();
+                    entity.RefSourceId = model.RefSourceId;
+                    entity.SourceId = model.SourceId;
+                    entity.SkillID = model.SkillID;
 
-                    {
-                        entity.RefSourceId = model.RefSourceId;
-                        entity.SourceId = model.SourceId;
-                        entity.SkillID = model.SkillID;
-
-                        models.Add(entity);
-
-                    }
-
-                    // After the loop, call AddSkillInfo once
-
-                    result = await _skillInfoRepository.AddSkillAsync(models);
-
+                    models.Add(entity);
 
                 }
 
-                return result; // Return the result after adding all models
-            //}
+            }
+            // After the loop, call AddSkillInfo once
 
-            //catch (Exception ex)
-            //{
-            //    return false; 
-            //}
+            var result = await _skillInfoRepository.AddSkillAsync(models);
+
+            return result; // Return the result after adding all models
+            }
+
+            catch (Exception ex)
+            {
+                return false;
+            }
 
         }
      }

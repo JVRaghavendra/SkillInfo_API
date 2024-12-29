@@ -19,7 +19,7 @@ namespace SkillInfo_API.Controllers
 
         [HttpPost]
         [Route("AddSkillAsync")]
-        public IActionResult Post([FromBody] SkillModel skillModel)
+        public async Task<ActionResult> Post([FromBody] List<SkillModel> skillModel)
         {
             try
             {
@@ -28,9 +28,11 @@ namespace SkillInfo_API.Controllers
                     return StatusCode(StatusCodes.Status400BadRequest, ModelState);
                 }
 
-                var skills = _skillInfoService.AddSkillAsync(new List<SkillModel> { skillModel });
+                var skills = await _skillInfoService.AddSkillAsync(skillModel);
 
-                return StatusCode(StatusCodes.Status201Created, "skill Details Added Succesfully");
+                //return StatusCode(StatusCodes.Status201Created, "skill Details Added Succesfully");
+
+                return Ok(skills);
             }
             catch (Exception)
             {
